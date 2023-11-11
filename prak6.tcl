@@ -19,7 +19,7 @@ set val(ifq)   Queue/DropTail/PriQueue     ;# interface queue type
 set val(ll)    LL                          ;# link layer type
 set val(ant)   Antenna/OmniAntenna         ;# antenna model
 set val(ifqlen) 50   ;# max packet in ifq
-set val(nn)     20   ;# number of mobilenodes
+set val(nn)     24   ;# number of mobilenodes
 set val(rp)     AODV ;# routing protocol
 set val(x)      1000 ;# X dimension of topography
 set val(y)      1000 ;# Y dimension of topography
@@ -27,8 +27,8 @@ set val(stop)   160  ;# time of simulation end
 
 set ns [new Simulator]
 
-set tracefd [open thesis4.tr w]
-set namtrace [open thesis4.nam w]
+set tracefd [open arif_nur_listanto_manet_UTS.tr w]
+set namtrace [open arif_nur_listanto_manet_UTS.nam w]
 
 $ns trace-all $tracefd
 $ns namtrace-all-wireless $namtrace $val(x) $val(y)
@@ -74,7 +74,7 @@ $n(1) set X_ 805.0
 $n(1) set Y_ 742.0
 $n(1) set Z_ 0.0
 
-$n(2) set X_ 515.0
+$n(2) set X_ 525.0
 $n(2) set Y_ 606.0
 $n(2) set Z_ 0.0
 
@@ -115,7 +115,7 @@ $n(11) set Y_ 502.0
 $n(11) set Z_ 0.0
 
 $n(12) set X_ 75.0
-$n(12) set Y_ 426.0
+$n(12) set Y_ 462.0
 $n(12) set Z_ 0.0
 
 $n(13) set X_ 145.0
@@ -146,13 +146,37 @@ $n(19) set X_ 515.0
 $n(19) set Y_ 366.0
 $n(19) set Z_ 0.0
 
+$n(20) set X_ 33.0
+$n(20) set Y_ 111.0
+$n(20) set Z_ 0.0
 
-# Set a TCP connection between n(1) and n(13)
+$n(21) set X_ 805.0
+$n(21) set Y_ 100.0
+$n(21) set Z_ 0.0
+
+$n(22) set X_ 125.0
+$n(22) set Y_ 10.0
+$n(22) set Z_ 0.0
+
+$n(23) set X_ 505.0
+$n(23) set Y_ 90.0
+$n(23) set Z_ 0.0
+
+
+# Set a TCP connection between n(1) and n(15)
 set udp [new Agent/UDP]    ;#use UDP to connect to sender node1
 #$tcp set class_ 2
 set null [new Agent/Null]  ;#use NULL to attach to reciever node2
 $ns attach-agent $n(1) $udp
-$ns attach-agent $n(13) $null
+$ns attach-agent $n(15) $null
+$ns connect $udp $null     ;#connect UDP AND NULL
+
+# Set a TCP connection between n(14) and n(9)
+set udp [new Agent/UDP]    ;#use UDP to connect to sender node1
+#$tcp set class_ 2
+set null [new Agent/Null]  ;#use NULL to attach to reciever node2
+$ns attach-agent $n(14) $udp
+$ns attach-agent $n(9) $null
 $ns connect $udp $null     ;#connect UDP AND NULL
 
 set cbr1 [new Application/Traffic/CBR]
@@ -167,10 +191,10 @@ $ns at 5.0 "$cbr1 start"
 
 
 #defining heads
-$ns at 0.0 "$n(0) label CH"
-$ns at 0.0 "$n(1) label Source"
-$ns at 0.0 "$n(13) label Destination"
-$ns at 0.0 "$n(2) label N2"
+#$ns at 0.0 "$n(0) label CH"
+#$ns at 0.0 "$n(1) label Source"
+#$ns at 0.0 "$n(13) label Destination"
+#$ns at 0.0 "$n(2) label N2"
 
 
 
@@ -195,6 +219,11 @@ $ns at 2.0 "$n(16) setdest 165.0 620.0 5.0"
 $ns at 0.0 "$n(17) setdest 765.0 320.0 5.0"
 $ns at 1.0 "$n(18) setdest 109.0 20.0 5.0"
 $ns at 1.0 "$n(19) setdest 175.0 185.0 5.0"
+
+$ns at 3.0 "$n(20) setdest 200.0 225.0 5.0"
+$ns at 3.0 "$n(21) setdest 765.0 100.0 5.0"
+$ns at 0.0 "$n(22) setdest 109.0 100.0 5.0"
+$ns at 0.0 "$n(23) setdest 800.0 800.0 5.0"
 
 
 # Define node initial position in nam
@@ -221,7 +250,7 @@ close $tracefd
 close $namtrace
 
                            
-exec nam thesis4.nam &
+exec nam arif_nur_listanto_manet_UTS.nam &
 puts "nam" 
 
 
